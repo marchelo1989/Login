@@ -25,7 +25,7 @@ public interface LoginInter {
     //Valida el Usuario 
     public boolean sqlValidar(String rut,String correo,String respSecre);
     //Cambia el estado de cambio pass a si
-    public boolean sqlUpdateSolicitud(String rut);
+    public boolean sqlUpdateSolicitud(String rut,String key);
     //valida la clave secreta con la ingresada
     public boolean sqlVerificarPass2(String rut,String key);
     //Cambio de la Password de Login

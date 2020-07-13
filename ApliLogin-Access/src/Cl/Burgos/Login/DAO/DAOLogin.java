@@ -166,9 +166,9 @@ public class DAOLogin implements LoginInter{
     }
 
     @Override
-    public boolean sqlUpdateSolicitud(String rut) {
+    public boolean sqlUpdateSolicitud(String rut,String key) {
         try {
-            String stSql =  "update login set cambioPass='si', claveSecreta='0' ";
+            String stSql =  "update login set cambioPass='si', claveSecreta='" + key+ "' ";
             stSql += "WHERE rut='" + rut+ "'";
             stSql += ";";
 //            String stSql =  "UPDATE `login` SET `cambioPass`='si', claveSecreta='' WHERE `rut`='"+login.getRut()+"';";

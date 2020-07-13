@@ -4,6 +4,8 @@
 	v.1.2 Enviar información por medio de correo electrónico
 	v.1.3 Crea un archivo con la información para activación (Eliminación de envió de correo)
 	v.1.4 Mejora de evaluación de fecha y reparación de errores en la versión anterior
+	v.1.4.1 Mejora de evaluación de fecha y reparación de errores en la versión anterior
+	v.1.5 Implementación del login con registro y recuperación de clave
 	
 -ApliActivarPC
 	v.1.0 Implementación del para activar el pc por medio de archivo
