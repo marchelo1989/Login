@@ -1,5 +1,6 @@
 -ApliLogin-Access
 	v.1.0 Implementación de las clases para iniciar proyecto
+	v.1.1 Creación de clase validar para los métodos de validación y activación de pc
 	
 -ApliActivarPC
 	v.1.0 Implementación del para activar el pc por medio de archivo

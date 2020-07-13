@@ -5,13 +5,14 @@
  */
 package Cl.Burgos.Login.ENT;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author march
  */
-public class ClRegistroPc {
+public class ClRegistroPc implements Serializable{
     private int idRegistroPc;
     private String keyPC;
     private String keyActivacion;
@@ -68,6 +69,17 @@ public class ClRegistroPc {
         this.keyActivacion = keyActivacion;
         this.fechaTermino = fechaTermino;
         this.activo = activo;
+    }
+    public ClRegistroPc(String keyPC, String keyActivacion, Date fechaTermino, boolean activo) {
+        this.keyPC = keyPC;
+        this.keyActivacion = keyActivacion;
+        this.fechaTermino = fechaTermino;
+        this.activo = activo;
+    }
+
+    @Override
+    public String toString() {
+        return "ClRegistroPc{" + "keyPC=" + keyPC + ", keyActivacion=" + keyActivacion + ", fechaTermino=" + fechaTermino + ", activo=" + activo + '}';
     }
     
     

@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import org.apache.log4j.Logger;
 
 /**
@@ -45,6 +46,7 @@ public class DAORegistroPC implements RegistroPCInter{
         return false;
     }
 
+    @Override
     public boolean sqlValidarActivoPC(String  key) {
         String stSql =  "select IdRegistropc,keypc,keyactivacion,fechaTermino,activo from registropc where ";
             stSql += "keypc='" + key+ "' and activo=true";
@@ -107,5 +109,27 @@ public class DAORegistroPC implements RegistroPCInter{
         return false;
     }
     
+    @Override
+    public Date sqlValidarFechaPC(String  key) {
+        String stSql =  "select IdRegistropc,keypc,keyactivacion,fechaTermino,activo from registropc where ";
+            stSql += "keypc='" + key+ "'";
+            stSql += ";";
+            Date fecha = null;
+        try {
+            ResultSet rs = BD.getInstance().sqlSelect(stSql);
+            if(rs==null || !rs.next())return fecha;
+            fecha = rs.getDate("fechaTermino") ;
+            return fecha;
+        } catch (SQLException ex) {
+//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
+//            log.info(ex.getMessage());
+        } catch (Exception ex) {
+//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
+//            log.info(ex.getMessage());
+        }
+        return fecha;
+    }
     
 }

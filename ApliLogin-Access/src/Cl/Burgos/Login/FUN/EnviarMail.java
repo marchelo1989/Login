@@ -50,7 +50,7 @@ public class EnviarMail {
             transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
             transporte.close();
             
-            JOptionPane.showMessageDialog(null, "Correo enviado");
+            JOptionPane.showMessageDialog(null, "Correo enviado \nEspere el archivo de activacion");
             
             
             

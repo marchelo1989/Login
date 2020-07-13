@@ -5,19 +5,43 @@
  */
 package Cl.Burgos.Login.GUI;
 
+import Cl.Burgos.Login.DAO.DAORegistroPC;
+import Cl.Burgos.Login.FUN.FormatoFecha;
+import Cl.Burgos.Login.FUN.ValidarPC;
+import Cl.Burgos.Login.Main.ApliLogin;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author march
  */
 public class FrLogin extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form FrLogin
      */
     public FrLogin() {
         initComponents();
+        jLabel1.setText(ValidarPC.keypc);
+//        ValidarPC.validarfecha();
     }
-
+//
+//    public void validarfecha(){
+//        DAORegistroPC dAORegistroPC = new DAORegistroPC();
+//        Date d =dAORegistroPC.sqlValidarFechaPC(ValidarPC.keypc);
+//        java.util.Date date = new java.util.Date();
+//        if(date.before(d)){
+//            JOptionPane.showMessageDialog(null,"Fecha Valida: "+d);
+//        }else{
+//            JOptionPane.showMessageDialog(null,"Fecha no Valida: "+d+" \nFecha de Hoy:"+FormatoFecha.mostrarFecha(date));
+//            System.exit(0);
+//        }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,7 +55,7 @@ public class FrLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Bienvenido");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -39,16 +63,16 @@ public class FrLogin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(255, Short.MAX_VALUE))
         );
 
         pack();
