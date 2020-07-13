@@ -132,4 +132,22 @@ public class DAORegistroPC implements RegistroPCInter{
         return fecha;
     }
     
+    public boolean sqldesabilitarPC(String keypc,String keyAct) {
+        Connection con = BD.getInstance().conectar();
+        String stSql =  "update registropc set keyactivacion=?, fechaTermino=null, activo=? where keypc=?;";
+        PreparedStatement ps = null;
+        try {            
+            ps = con.prepareStatement(stSql);
+            ps.setString(1, keyAct);
+            ps.setBoolean(2, false);
+            ps.setString(3, keypc);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+//            Logger.getLogger(DAOCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
+            log.info(ex.getMessage());
+        }
+        return false;
+    }
 }

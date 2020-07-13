@@ -77,6 +77,10 @@ public class ClRegistroPc implements Serializable{
         this.activo = activo;
     }
 
+    public ClRegistroPc(String keyPC) {
+        this.keyPC = keyPC;
+    }
+    
     @Override
     public String toString() {
         return "ClRegistroPc{" + "keyPC=" + keyPC + ", keyActivacion=" + keyActivacion + ", fechaTermino=" + fechaTermino + ", activo=" + activo + '}';
