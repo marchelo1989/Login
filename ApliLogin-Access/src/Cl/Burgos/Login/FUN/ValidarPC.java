@@ -84,7 +84,7 @@ public class ValidarPC {
         if(dAORegistroPC.sqlActivarPC(clRegistroPc)){
             JOptionPane.showMessageDialog(null,"Pc Activado");
             eliminarFichero();
-            ValidarPC.validarfecha();
+            validarfecha();
         }else{
             JOptionPane.showMessageDialog(null,"Error Activar Contactar con el Administrador");
         }
@@ -150,18 +150,30 @@ public class ValidarPC {
         }      
         return r;
     }
-    public static void validarfecha(){
+    public void validarfecha(){
         DAORegistroPC dAORegistroPC = new DAORegistroPC();
         d =dAORegistroPC.sqlValidarFechaPC(ValidarPC.keypc);
         java.util.Date date = new java.util.Date();
+        String keyAct = generarPASS();
         if(date.before(d)){
             JOptionPane.showMessageDialog(null,"Fecha Valida: "+d);
             FrLogin frLogin = new FrLogin();
             frLogin.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null,"Fecha no Valida: "+d+" \nFecha de Hoy:"+FormatoFecha.mostrarFecha(date));
-            
-            System.exit(0);
+            JOptionPane.showMessageDialog(null,"Fecha no Valida: "+d);
+            int resp = JOptionPane.showConfirmDialog(null, "¿Quiere Reactivar el Programa?", "Alerta!", JOptionPane.YES_NO_OPTION);
+                if(resp==0){
+                    if(dAORegistroPC.sqldesabilitarPC(ValidarPC.keypc,keyAct)){
+                        crearArchivoActivacion(keypc, keyAct);
+                        JOptionPane.showMessageDialog(null,"Reactivacion solicitada");
+                        
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Error en la Reactivacion solicitada");
+                    }
+//                    this.dispose();
+                }else{
+                    System.exit(0);
+                }
         }
     }
     public static String generarPASS(){
