@@ -10,12 +10,15 @@ import Cl.Burgos.Login.DAO.DAORegistroPC;
 import Cl.Burgos.Login.ENT.ClRegistroPc;
 import Cl.Burgos.Login.GUI.FrLogin;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +34,7 @@ import javax.swing.JOptionPane;
 public class ValidarPC {
     
     public static String keypc;
+    public static Date d;
     public void validarRegistropc(){
         String numSerie = "cmd /c wmic bios get serialnumber";
         String numSerie2 = "wmic path win32_computersystemproduct get uuid";
@@ -38,6 +42,8 @@ public class ValidarPC {
         ns = ns.replaceAll("\\s*$","");
         if(ns.equals("To be filled by O.E.M.")){
             keypc = ComandosCMD.cmd(numSerie2);
+        }else{
+            keypc = ns;
         }
         String key = generarPASS();
         DAORegistroPC dAORegistroPC = new DAORegistroPC();
@@ -58,9 +64,11 @@ public class ValidarPC {
             ClRegistroPc clRegistroPc = new ClRegistroPc(keypc, key);
             //RegistrarPC
             if(dAORegistroPC.sqlInsertarPC(clRegistroPc)){
-                JOptionPane.showMessageDialog(null,"Pc Registrado \nEspere que se Envie el correo");
-                EnviarMail enviarMail = new EnviarMail();
-                enviarMail.enviarCorreo("marchelo.1989@live.cl", "Activacion del pc", "Pc: "+keypc+" \nLa Clave de Activacion es: "+key);
+                JOptionPane.showMessageDialog(null,"Pc Registrado \nEspere que se Cree el Archivo");
+                crearArchivoActivacion(keypc, key);
+//                JOptionPane.showMessageDialog(null,"Pc Registrado \nEspere que se Envie el correo");
+//                EnviarMail enviarMail = new EnviarMail();
+//                enviarMail.enviarCorreo("marchelo.1989@live.cl", "Activacion del pc", "Pc: "+keypc+" \nLa Clave de Activacion es: "+key);
                 
             }else{
                 JOptionPane.showMessageDialog(null,"Error No se pudo Registrar el PC");
@@ -75,6 +83,7 @@ public class ValidarPC {
         //        ClRegistroPc clRegistroPc = new ClRegistroPc(txtCodigo.getText(), date,true);
         if(dAORegistroPC.sqlActivarPC(clRegistroPc)){
             JOptionPane.showMessageDialog(null,"Pc Activado");
+            eliminarFichero();
             ValidarPC.validarfecha();
         }else{
             JOptionPane.showMessageDialog(null,"Error Activar Contactar con el Administrador");
@@ -88,8 +97,22 @@ public class ValidarPC {
             Logger.getLogger(ValidarPC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void crearArchivoActivacion(String keyPC,String key){
+        String url="Act.obj";
+        String msg=keyPC+";"+key;
+        msg=MetodoBase64E.cifrarBase64(msg);
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(url, true)))) {
+            out.println("1");
+            out.println(msg);
+            
+            JOptionPane.showMessageDialog(null,"Archivo Listo \nPara Mandarlo al Administrador");
+        }catch (IOException e) {
+            //exception handling left as an exercise for the reader
+            JOptionPane.showMessageDialog(null,"Hubo un error"+e);
+        }
+    }
     public ClRegistroPc leerArchivo() throws IOException, ParseException{
-        String ficher=userProgra+"/Datos.txt";
+        String ficher=userProgra+"/Activacion.obj";
         File archivo = new File (ficher);
 //        File archivo = new File ("E:/informacion.txt");
         FileReader fr = new FileReader(archivo);
@@ -129,7 +152,7 @@ public class ValidarPC {
     }
     public static void validarfecha(){
         DAORegistroPC dAORegistroPC = new DAORegistroPC();
-        Date d =dAORegistroPC.sqlValidarFechaPC(ValidarPC.keypc);
+        d =dAORegistroPC.sqlValidarFechaPC(ValidarPC.keypc);
         java.util.Date date = new java.util.Date();
         if(date.before(d)){
             JOptionPane.showMessageDialog(null,"Fecha Valida: "+d);
@@ -137,6 +160,7 @@ public class ValidarPC {
             frLogin.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null,"Fecha no Valida: "+d+" \nFecha de Hoy:"+FormatoFecha.mostrarFecha(date));
+            
             System.exit(0);
         }
     }
@@ -147,5 +171,17 @@ public class ValidarPC {
 		PasswordGenerator.MAYUSCULAS+
 		PasswordGenerator.ESPECIALES,20);
         return Pass;
+    }
+    
+    public static void eliminarFichero() {
+        String ficher=userProgra+"/Activacion.obj";
+        File fichero = new File (ficher);
+        if (!fichero.exists()) {
+            System.out.println("El archivo data no existe.");
+        } else {
+            fichero.delete();
+            System.out.println("El archivo data fue eliminado.");
+        }
+
     }
 }

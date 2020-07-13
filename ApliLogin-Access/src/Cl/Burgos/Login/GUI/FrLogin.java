@@ -10,6 +10,10 @@ import Cl.Burgos.Login.FUN.FormatoFecha;
 import Cl.Burgos.Login.FUN.ValidarPC;
 import Cl.Burgos.Login.Main.ApliLogin;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,20 +32,15 @@ public class FrLogin extends javax.swing.JFrame {
     public FrLogin() {
         initComponents();
         jLabel1.setText(ValidarPC.keypc);
-//        ValidarPC.validarfecha();
+        
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechanaci = LocalDate.parse(FormatoFecha.mostrarFecha(ValidarPC.d),date);
+        LocalDate fechaActual=LocalDate.now();
+        
+        Period periodo=Period.between(fechaActual, fechanaci);
+        String resul=("Fatan: "+periodo.getYears()+" Años, "+periodo.getMonths()+" Meses y "+periodo.getDays()+" Dias Para que espire el programa");
+        txtecha.setText(resul);
     }
-//
-//    public void validarfecha(){
-//        DAORegistroPC dAORegistroPC = new DAORegistroPC();
-//        Date d =dAORegistroPC.sqlValidarFechaPC(ValidarPC.keypc);
-//        java.util.Date date = new java.util.Date();
-//        if(date.before(d)){
-//            JOptionPane.showMessageDialog(null,"Fecha Valida: "+d);
-//        }else{
-//            JOptionPane.showMessageDialog(null,"Fecha no Valida: "+d+" \nFecha de Hoy:"+FormatoFecha.mostrarFecha(date));
-//            System.exit(0);
-//        }
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,11 +51,14 @@ public class FrLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        txtecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Bienvenido");
+
+        txtecha.setText("Fecha Valida:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,7 +66,9 @@ public class FrLogin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(txtecha))
                 .addContainerGap(324, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -72,7 +76,9 @@ public class FrLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addContainerGap(255, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(txtecha)
+                .addContainerGap(223, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,5 +121,6 @@ public class FrLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel txtecha;
     // End of variables declaration//GEN-END:variables
 }

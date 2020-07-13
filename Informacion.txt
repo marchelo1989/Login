@@ -2,6 +2,7 @@
 	v.1.0 Implementación de las clases para iniciar proyecto
 	v.1.1 Creación de clase validar para los métodos de validación y activación de pc
 	v.1.2 Enviar información por medio de correo electrónico
+	v.1.3 Crea un archivo con la información para activación (Eliminación de envió de correo)
 	
 -ApliActivarPC
 	v.1.0 Implementación del para activar el pc por medio de archivo
